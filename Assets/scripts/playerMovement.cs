@@ -76,7 +76,6 @@ public class playerMovement : MonoBehaviour
     }
 
  
-
     private void FixedUpdate()
     {
         if (isDashing)
@@ -90,7 +89,6 @@ public class playerMovement : MonoBehaviour
     }
 
  
-
     void Jump()
     {
         if (isGrounded() || jumpCount < maxJump)
@@ -102,7 +100,6 @@ public class playerMovement : MonoBehaviour
     }
 
  
-
     void Update()
     {
         if(isDashing)
