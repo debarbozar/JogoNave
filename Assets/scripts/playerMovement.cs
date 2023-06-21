@@ -2,12 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+ 
+
 public class playerMovement : MonoBehaviour
 {
     private float horizontal;
     private float speed = 8f;
-    private float jumpingPower = 24f;
+    private float jumpingPower = 15f;
     private bool isFacingRight = false;
+
+ 
+
+    //private bool doubleJump;
+    private int jumpCount = 0;
+    private int maxJump = 1;
+    private float doubleJumpingPower = 20f;
+
+ 
 
 
     private bool canDash = true;
@@ -16,12 +27,16 @@ public class playerMovement : MonoBehaviour
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
 
+ 
 
+ 
 
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private TrailRenderer tr;
+
+ 
 
 
     private IEnumerator Dash()
@@ -40,12 +55,14 @@ public class playerMovement : MonoBehaviour
         canDash = true;
     }
 
+ 
+
     private bool isGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
-
+ 
 
     private void FLip()
     {
@@ -58,8 +75,7 @@ public class playerMovement : MonoBehaviour
         }
     }
 
-
-
+ 
 
     private void FixedUpdate()
     {
@@ -68,11 +84,25 @@ public class playerMovement : MonoBehaviour
             return;
         }
 
+ 
+
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
 
+ 
 
-    // Update is called once per frame
+    void Jump()
+    {
+        if (isGrounded() || jumpCount < maxJump)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpCount < maxJump ? doubleJumpingPower : jumpingPower);
+            jumpCount++;
+            //doubleJump = true;
+        }
+    }
+
+ 
+
     void Update()
     {
         if(isDashing)
@@ -80,25 +110,45 @@ public class playerMovement : MonoBehaviour
             return;
         }
 
+ 
+
         horizontal = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetButtonDown("Jump") && isGrounded())
+ 
+
+        if (isGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+            jumpCount = 0;
         }
+
+ 
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            //Debug.Log("doubleJump: " + doubleJump);
+            Jump();
+        }
+
+ 
 
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
 
+ 
+
         if(Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
             StartCoroutine(Dash());
         }
 
+ 
+
         FLip();
     }
+
+ 
 
 
 }
