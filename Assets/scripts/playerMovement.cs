@@ -3,24 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
  
-
 public class playerMovement : MonoBehaviour
 {
     private float horizontal;
     private float speed = 8f;
-    private float jumpingPower = 15f;
+    private float jumpingPower = 15f; //altura do pulo
     private bool isFacingRight = false;
 
  
-
-    //private bool doubleJump;
     private int jumpCount = 0;
     private int maxJump = 1;
     private float doubleJumpingPower = 20f;
 
  
-
-
     private bool canDash = true;
     private bool isDashing;
     private float dashingPower = 54f;
@@ -28,17 +23,12 @@ public class playerMovement : MonoBehaviour
     private float dashingCooldown = 1f;
 
  
-
- 
-
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private TrailRenderer tr;
 
  
-
-
     private IEnumerator Dash()
     {
         canDash = false;
@@ -55,15 +45,13 @@ public class playerMovement : MonoBehaviour
         canDash = true;
     }
 
- 
-
+    //base do jogo
     private bool isGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
  
-
     private void FLip()
     {
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
@@ -84,11 +72,11 @@ public class playerMovement : MonoBehaviour
         }
 
  
-
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
 
  
+    //void de pulo
     void Jump()
     {
         if (isGrounded() || jumpCount < maxJump)
@@ -119,7 +107,7 @@ public class playerMovement : MonoBehaviour
         }
 
  
-
+        //setando que o botão de pular será espaço
         if (Input.GetButtonDown("Jump"))
         {
             //Debug.Log("doubleJump: " + doubleJump);
@@ -127,7 +115,7 @@ public class playerMovement : MonoBehaviour
         }
 
  
-
+        //velocidade de pulo
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
@@ -146,6 +134,5 @@ public class playerMovement : MonoBehaviour
     }
 
  
-
 
 }
