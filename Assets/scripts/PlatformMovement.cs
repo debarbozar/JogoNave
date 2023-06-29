@@ -1,41 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor.UIElements;
 using UnityEngine;
 
 public class PlatformMovement : MonoBehaviour
 {
-    //[SerializeField] bool isTheFirstPlatform = false;
     [SerializeField] private float velocity;
     [SerializeField] private float destroyPositionY;
     private Rigidbody2D rb2D;
-    
-    //[SerializeField] private Transform playerCheck;
-    //[SerializeField] private LayerMask playerLayer;
 
-
-
-    //private bool isGrounded()
-    //{
-    //    return Physics2D.OverlapCircle(playerCheck.position, 0.2f, playerLayer);
-    //}
-
-    private void awake()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        rb2D = GetComponent<Rigidbody2D>();
+        if (collision.CompareTag("Player"))
+        {
+            collision.transform.SetParent(this.transform);
+        }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        collision.transform.SetParent(transform);
+        if (collision.CompareTag("Player"))
+        {
+            collision.transform.SetParent(null);
+        }
     }
 
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        collision.transform.SetParent(null);
-    }
 
     private void Awake()
     {
