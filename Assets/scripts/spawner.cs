@@ -6,21 +6,15 @@ public class spawner : MonoBehaviour
 {
     [SerializeField] GameObject platform;
     private float spawnTime = 3f;
-    private float spawnCountTime = 0;
+    private float spawnCountTime = 3f;
     private Vector2 spawnPosition;
 
-    //-12.25
-    //12.17
-    void Start()
-    {
-
-    }
 
     public void SpawnPlatform()
     {
         this.spawnCountTime += Time.deltaTime;
         this.spawnPosition = this.transform.position;
-        this.spawnPosition.x = Random.Range(-12.25f,  12.17f);
+        this.spawnPosition.x = Random.Range(-5.75f, 5.75f);
 
         if(spawnCountTime >= spawnTime)
         {

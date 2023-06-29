@@ -7,13 +7,13 @@ public class playerMovement : MonoBehaviour
 {
     private float horizontal;
     private float speed = 8f;
-    private float jumpingPower = 15f; //altura do pulo
+    private float jumpingPower = 0.002f; //altura do pulo
     private bool isFacingRight = false;
 
  
     private int jumpCount = 0;
     private int maxJump = 1;
-    private float doubleJumpingPower = 20f;
+    private float doubleJumpingPower = 25f;
 
  
     private bool canDash = true;
@@ -28,7 +28,7 @@ public class playerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private TrailRenderer tr;
 
- 
+
     private IEnumerator Dash()
     {
         canDash = false;
@@ -73,21 +73,26 @@ public class playerMovement : MonoBehaviour
 
  
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        //this.transform.Translate(new Vector2(horizontal * 0.1f, rb.velocity.y));
+
     }
 
- 
+
     //void de pulo
     void Jump()
     {
         if (isGrounded() || jumpCount < maxJump)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpCount < maxJump ? doubleJumpingPower : jumpingPower);
+
+
             jumpCount++;
             //doubleJump = true;
         }
     }
 
- 
+
+
     void Update()
     {
         if(isDashing)
@@ -99,7 +104,8 @@ public class playerMovement : MonoBehaviour
 
         horizontal = Input.GetAxisRaw("Horizontal");
 
- 
+        //Debug.ClearDeveloperConsole();
+        //Debug.Log(horizontal);
 
         if (isGrounded())
         {
