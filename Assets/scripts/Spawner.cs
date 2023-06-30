@@ -5,21 +5,43 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] GameObject platform;
-    private float spawnTime = 2f;
-    private float spawnCountTime = 3f;
+    [SerializeField] GameObject star;
+    private float platformSpawnTime = 2f;
+    private float starSpawnTime = 5;
+    private float starSpawnCountTime = 0;
+    private float platformSpawnCountTime = 2f;
     private Vector2 spawnPosition;
 
 
+    public void SpawnStar()
+    {
+        this.starSpawnCountTime += Time.deltaTime;
+        this.spawnPosition = this.transform.position;
+        this.spawnPosition.x = Random.Range(-9.5f, 9.5f);
+
+        if (starSpawnCountTime >= starSpawnTime)
+        {
+            starApperance();
+            starSpawnCountTime = Random.Range(0f, 3f);
+        }
+    }
+
+    public void starApperance()
+    {
+        Debug.Log("Star");
+        Instantiate(star, spawnPosition, Quaternion.identity);
+    }
+
     public void SpawnPlatform()
     {
-        this.spawnCountTime += Time.deltaTime;
+        this.platformSpawnCountTime += Time.deltaTime;
         this.spawnPosition = this.transform.position;
-        this.spawnPosition.x = Random.Range(-5.75f, 5.75f);
+        this.spawnPosition.x = Random.Range(-9.5f, 9.5f);
 
-        if(spawnCountTime >= spawnTime)
+        if (platformSpawnCountTime >= platformSpawnTime)
         {
             platformApperance();
-            spawnCountTime = 0;
+            platformSpawnCountTime = 0;
         }
 
     }
@@ -32,5 +54,6 @@ public class Spawner : MonoBehaviour
     void Update()
     {
         SpawnPlatform();
+        SpawnStar();
     }
 }

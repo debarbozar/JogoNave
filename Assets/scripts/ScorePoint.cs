@@ -18,29 +18,32 @@ public class ScorePoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Platform") && !last3Platforms.Contains(collision.GetInstanceID()))
+        if(collision.CompareTag("Star"))
         {
-            last3Platforms.Add(collision.GetInstanceID());
-            scoreNum++;
+            Destroy(collision.gameObject);
+            scoreNum += 10;
         }
     }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.collider.CompareTag("OneWayPlatform") && !last3Platforms.Contains(collision.collider.GetInstanceID()))
+        {
+            last3Platforms.Add(collision.collider.GetInstanceID());
+            scoreNum += 1;
+        }
+
     }
 
-
-    // Start is called before the first frame update
     void Start()
     {
         scoreNum = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        scoreText.text = "Score: " + (scoreNum * 10);
+        scoreText.text = "Score: " + scoreNum;
 
         if (last3Platforms.Count >= 2)
         {

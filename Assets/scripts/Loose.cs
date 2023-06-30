@@ -7,7 +7,9 @@ using UnityEngine.SceneManagement;
 public class Loose : MonoBehaviour
 {
     [SerializeField] private TMP_Text scoreMessage;
-    [SerializeField] private GameOverScreen gameOverScreen;
+    [SerializeField] private GameObject gameOverScreen;
+    [SerializeField] private GameObject InGameSoundtrack;
+    [SerializeField] private GameObject GameOverSoundtrack;
     [SerializeField] private ScorePoint scorePointScript;
 
 
@@ -17,16 +19,19 @@ public class Loose : MonoBehaviour
         {
             Setup();
         }
-        
     }
 
     public void RestartButton()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
     private void Setup()
     {
-        gameOverScreen.gameObject.SetActive(true);
-        scoreMessage.text = (scorePointScript.getScore() * 10) + " Points";
+        InGameSoundtrack.GetComponent<AudioSource>().Stop();
+        GameOverSoundtrack.GetComponent<AudioSource>().Play();
+        gameOverScreen.SetActive(true);
+        Time.timeScale = 0;
+        scoreMessage.text = scorePointScript.getScore() + " Points";
     }
 }

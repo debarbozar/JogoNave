@@ -6,14 +6,15 @@ using UnityEngine;
 public class playerMovement : MonoBehaviour
 {
     private float horizontal;
+    private bool pressVerticalInput;
+    private bool freeVerticalInput;
     private float speed = 8f;
-    private float jumpingPower = 0.002f; //altura do pulo
+    private float jumpingPower = 20f;
     private bool isFacingRight = false;
 
  
     private int jumpCount = 0;
     private int maxJump = 1;
-    private float doubleJumpingPower = 25f;
 
  
     private bool canDash = true;
@@ -70,11 +71,8 @@ public class playerMovement : MonoBehaviour
         {
             return;
         }
-
  
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-        //this.transform.Translate(new Vector2(horizontal * 0.1f, rb.velocity.y));
-
     }
 
 
@@ -83,11 +81,9 @@ public class playerMovement : MonoBehaviour
     {
         if (isGrounded() || jumpCount < maxJump)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpCount < maxJump ? doubleJumpingPower : jumpingPower);
-
+            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
 
             jumpCount++;
-            //doubleJump = true;
         }
     }
 
@@ -100,45 +96,30 @@ public class playerMovement : MonoBehaviour
             return;
         }
 
- 
-
         horizontal = Input.GetAxisRaw("Horizontal");
-
-        //Debug.ClearDeveloperConsole();
-        //Debug.Log(horizontal);
+        pressVerticalInput = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow);
+        freeVerticalInput = Input.GetButtonUp("Jump") || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow);
 
         if (isGrounded())
         {
             jumpCount = 0;
         }
-
  
-        //setando que o botão de pular será espaço
-        if (Input.GetButtonDown("Jump"))
+        if (pressVerticalInput)
         {
-            //Debug.Log("doubleJump: " + doubleJump);
             Jump();
         }
-
  
-        //velocidade de pulo
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        if (freeVerticalInput && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
 
- 
-
-        if(Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
             StartCoroutine(Dash());
         }
 
- 
-
         FLip();
     }
-
- 
-
 }
