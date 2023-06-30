@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 1721387366202280871}
   - component: {fileID: 4207977727992528144}
   m_Layer: 6
-  m_Name: Platform 2
+  m_Name: InitialPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
