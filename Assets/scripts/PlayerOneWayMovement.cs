@@ -1,20 +1,18 @@
-using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Security.AccessControl;
 using UnityEngine;
 
-public class PlayerOneWayPlataforms : MonoBehaviour
+public class PlayerOneWayMovement : MonoBehaviour
 {
     private GameObject currentOneWayPlatform;
 
     [SerializeField] private BoxCollider2D playerCollider;
 
 
-    void Update1()
+    void Update()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        Debug.Log(Input.GetAxisRaw("Vertical"));
+        if (Input.GetAxisRaw("Vertical") < 0)
         {
             if (currentOneWayPlatform != null)
             {
@@ -28,16 +26,17 @@ public class PlayerOneWayPlataforms : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("OneWayPlatform"))
+        if (collision.collider.CompareTag("OneWayPlatform"))
         {
             currentOneWayPlatform = collision.gameObject;
+            Debug.Log("One Way");
         }
     }
 
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("OneWayPlatform"))
+        if (collision.collider.CompareTag("OneWayPlatform"))
         {
             currentOneWayPlatform = null;
         }
