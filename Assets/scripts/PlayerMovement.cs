@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
  
-public class playerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     private float horizontal;
     private bool pressVerticalInput;
@@ -11,18 +11,15 @@ public class playerMovement : MonoBehaviour
     private float speed = 8f;
     private float jumpingPower = 20f;
     private bool isFacingRight = false;
-
  
     private int jumpCount = 0;
     private int maxJump = 1;
-
  
     private bool canDash = true;
     private bool isDashing;
     private float dashingPower = 54f;
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
-
  
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
@@ -46,13 +43,11 @@ public class playerMovement : MonoBehaviour
         canDash = true;
     }
 
-    //base do jogo
     private bool isGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
- 
     private void FLip()
     {
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
@@ -64,7 +59,6 @@ public class playerMovement : MonoBehaviour
         }
     }
 
- 
     private void FixedUpdate()
     {
         if (isDashing)
@@ -76,7 +70,6 @@ public class playerMovement : MonoBehaviour
     }
 
 
-    //void de pulo
     void Jump()
     {
         if (isGrounded() || jumpCount < maxJump)
@@ -86,8 +79,6 @@ public class playerMovement : MonoBehaviour
             jumpCount++;
         }
     }
-
-
 
     void Update()
     {

@@ -6,10 +6,10 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] GameObject platform;
     [SerializeField] GameObject star;
-    private float platformSpawnTime = 1f; // velocidade da plataforma
+    [SerializeField] private float platformSpawnTime = 1f; // velocidade da plataforma
+    private float platformSpawnCountTime = 2f;
     private float starSpawnTime = 5;
     private float starSpawnCountTime = 0;
-    private float platformSpawnCountTime = 2f;
     private Vector2 spawnPosition;
 
 
